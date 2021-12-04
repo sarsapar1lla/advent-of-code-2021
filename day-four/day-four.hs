@@ -66,6 +66,15 @@ playRound cards number
         winningCards = [card | card <- markedCards, hasWon card]
 
 
+playLosingRound :: [[String]] -> String -> [[String]]
+playLosingRound cards number
+    | length markedCards == 1 && hasWon (head markedCards) = markedCards
+    | otherwise = losingCards
+    where
+        markedCards = markCards number cards
+        losingCards = [card | card <- markedCards, not $ hasWon card]
+
+
 scoreCard :: [String] -> String -> Int 
 scoreCard card number =
     let
@@ -83,6 +92,15 @@ scoreWinningCard cards (number : rest)
         markedCards = playRound cards number
 
 
+scoreLosingCard :: [[String]] -> [String] -> Int
+scoreLosingCard [] _ = 0
+scoreLosingCard _ [] = 0
+scoreLosingCard cards (number : rest)
+    | length markedCards == 1 && hasWon (head markedCards) = scoreCard (head markedCards) number
+    | otherwise = scoreLosingCard markedCards rest
+    where markedCards = playLosingRound cards number
+
+
 main = do
     numberContents <- readFile "numbers.txt"
     cardsContents <- readFile "cards.txt"
@@ -90,3 +108,4 @@ main = do
     let cards :: [[String]] = getCards $ words cardsContents
 
     print $ scoreWinningCard cards numbers
+    print $ scoreLosingCard cards numbers
