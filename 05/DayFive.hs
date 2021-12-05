@@ -15,9 +15,9 @@ replaceComma c = c
 getEndPointsFromDefinition :: String -> [Point]
 getEndPointsFromDefinition def = 
     let
-        (p1:_:p2:[]) = words def
-        (x1:y1:[]) = words $ map replaceComma p1
-        (x2:y2:[]) = words $ map replaceComma p2
+        [p1, "->", p2] = words def
+        [x1, y1] = words $ map replaceComma p1
+        [x2, y2] = words $ map replaceComma p2
         point1 = Point (read x1 :: Int) (read y1 :: Int)
         point2 = Point (read x2 :: Int) (read y2 :: Int)
     in  [point1] ++ [point2]
