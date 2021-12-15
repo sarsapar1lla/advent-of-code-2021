@@ -77,7 +77,7 @@ def main():
     cavern = [[int(i) for i in line] for line in lines]
     start, end = get_start_and_end(cavern)
     path = find_path(start, end, cavern)
-    print(path)
+    # print(path)
     # show_path(path)
     print(score_path(path, cavern))
 
